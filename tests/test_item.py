@@ -54,3 +54,16 @@ def test_string_to_number():
     assert item2.string_to_number('10.2') == 10
     with pytest.raises(ValueError):
         assert item2.string_to_number("abc") == 10
+
+
+def test__repr__():
+    item2 = Item('Телефон', 10000, 5)
+    assert item2.__repr__() == "Item('Телефон', 10000, 5)"
+    with pytest.raises(AssertionError):
+        assert item2.__repr__() == "Item('Телефон', 20000, 5)"
+
+
+def test__str__():
+    item2 = Item('Телефон', 10000, 5)
+    assert item2.__str__() == 'Телефон'
+    assert item2.__str__() == str(item2.name)
