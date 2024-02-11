@@ -1,9 +1,7 @@
 import csv
-
 import os
 
 
-# noinspection PyTypeChecker
 class Item:
     """
     Класс для представления товара в магазине.
@@ -23,7 +21,8 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        # self.all.append(self)
+
+        #Item.all.append(self)
 
     @property
     def name(self):
@@ -90,3 +89,13 @@ class Item:
 
     def __str__(self):
         return self.__name
+
+    def __add__(self, other):
+        """ Магический метод add делает проверку что:
+        Экземпляр self относиться к классу self
+        Экземпляр other наследуется от класса self """
+        if isinstance(self, self.__class__):
+            if issubclass(other.__class__, self.__class__):
+                return self.quantity + other.quantity
+
+
