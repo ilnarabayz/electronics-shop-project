@@ -1,5 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 from src.item import Item
+from src.phone import Phone
+from src.hard import Hard
 import os
 import pytest
 
@@ -67,3 +69,13 @@ def test__str__():
     item2 = Item('Телефон', 10000, 5)
     assert item2.__str__() == 'Телефон'
     assert item2.__str__() == str(item2.name)
+
+
+def test_add():
+    item2 = Item('Телефон', 10000, 5)
+    hard = Hard('Телефон', 10000, 15)
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    assert item2 + phone1 == 10
+    with pytest.raises(ValueError):
+        assert phone1 + item2 == 10
+        assert item2 + hard == 20
