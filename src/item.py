@@ -22,7 +22,7 @@ class Item:
         self.price = price
         self.quantity = quantity
 
-        #Item.all.append(self)
+        Item.all.append(self)
 
     @property
     def name(self):
@@ -97,5 +97,3 @@ class Item:
         if isinstance(self, self.__class__):
             if issubclass(other.__class__, self.__class__):
                 return self.quantity + other.quantity
-
-
