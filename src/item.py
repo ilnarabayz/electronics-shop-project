@@ -1,5 +1,13 @@
-import csv
-import os
+#import csv
+#import os
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self):
+        self.error = 'Файл item.csv поврежден'
+
+    def __str__(self):
+        return self.error
 
 
 class Item:
@@ -50,23 +58,31 @@ class Item:
         self.price *= Item.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls, data_file):
+    def instantiate_from_csv(cls, path):
         """
         Создает экземпляры класса Item из данных, полученных из файла items.csv.
         """
-        file_path = os.path.join(os.path.dirname(__file__), data_file)
-
+        import csv
+        import os
         cls.all.clear()
-        with open(file_path, 'r', newline="") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                name = row['name']
-                price = cls.string_to_number(row['price'])
-                quantity = cls.string_to_number(row['quantity'])
-                items_csv = Item(name, price, quantity)
-                items = cls.all.append(items_csv)
-
-            return cls.all
+        paths = os.path.exists(path)
+        if paths == False:
+            raise FileNotFoundError('Отсутствует файл item.csv')
+        else:
+            with open(path, 'r', newline='') as attributes:
+                attribute = csv.DictReader(attributes)
+                for attr in attribute:
+                    if 'name' not in attr:
+                        raise InstantiateCSVError
+                    name = attr['name']
+                    if 'price' not in attr:
+                        raise InstantiateCSVError
+                    price = cls.string_to_number(attr['price'])
+                    if 'quantity' not in attr:
+                        raise InstantiateCSVError
+                    quantity = cls.string_to_number(attr['quantity'])
+                    items_csv = Item(name, price, quantity)
+            return items_csv
 
     @staticmethod
     def string_to_number(string):
